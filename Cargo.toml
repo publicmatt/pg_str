@@ -1,0 +1,53 @@
+[package]
+name = "pg_str"
+version = "0.3.0"
+edition = "2021"
+authors = ["Matt<matt@publicmatt.com"]
+include = [
+  "**/*.rs",
+  "Cargo.toml",
+  "README.md"
+]
+readme = "README.md"
+repository = "https://github.com/publicmatt/pg_str"
+documentation = "https://docs.rs/pg_str"
+homepage = "https://github.com/publicmatt/pg_str"
+license="MIT"
+description = """
+Adds str functions to Postgresql via an extension."""
+keywords = ["postgresql", "string", "cases", "pluralize", "markdown"]
+categories = ["text-processing", "database"]
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+default = ["pg13"]
+pg11 = ["pgx/pg11", "pgx-tests/pg11"]
+pg12 = ["pgx/pg12", "pgx-tests/pg12"]
+pg13 = ["pgx/pg13", "pgx-tests/pg13"]
+pg14 = ["pgx/pg14", "pgx-tests/pg14"]
+pg15 = ["pgx/pg15", "pgx-tests/pg15"]
+pg_test = []
+
+[dependencies]
+pgx = "=0.6.1"
+Inflector = "0.11.4"
+str_slug = "0.1.3"
+pulldown-cmark = "0.9.1"
+any_ascii = "0.3.0"
+rand = "0.8.4"
+uuid = "1.2.2"
+
+[dev-dependencies]
+pgx-tests = "=0.6.1"
+
+[profile.dev]
+panic = "unwind"
+lto = "thin"
+
+[profile.release]
+panic = "unwind"
+opt-level = 3
+lto = "fat"
+codegen-units = 1
