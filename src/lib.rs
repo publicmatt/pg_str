@@ -1,115 +1,133 @@
 use pgx::prelude::*;
 
+use rand::distributions::{Alphanumeric, DistString};
+use rand::thread_rng;
 use any_ascii::any_ascii;
 use inflector::cases::{
     camelcase, kebabcase, pascalcase, screamingsnakecase, snakecase, titlecase,
 };
 use inflector::string::{pluralize, singularize};
 use pulldown_cmark::{html, Options, Parser};
-use rand::distributions::{Alphanumeric, DistString};
 use str_slug::StrSlug;
 use uuid::Uuid;
 
 
 pgx::pg_module_magic!();
 
-// #[pg_extern]
-// fn str_random(length: u32) -> String {
-//     Alphanumeric.sample_string(&mut rand::thread_rng(), length.try_into().unwrap())
-// }
+#[pg_extern]
+fn str_random(length: i32) -> String {
+    Alphanumeric.sample_string(&mut rand::thread_rng(), length as usize)
+}
 
 #[pg_extern]
-fn after<'a>(input: &'a str, search: &str) -> &'a str {
+fn str_length(input: &str) -> i32 {
+    input.len() as i32
+}
+
+#[pg_extern]
+fn str_after<'a>(input: &'a str, search: &str) -> &'a str {
     let matches: Vec<_> = input.match_indices(search).collect();
     match matches.first() {
         None => input,
         Some(x) => &input[x.1.len()..]
     }
 }
+// #[pg_extern]
+// fn str_after_last<'a>(input: &'a str, search: &str) -> &'a str {
+// }
+
+// fn str_before<'a>(input: &'a str, search: &str) -> &'a str {
+// }
+// fn str_beforeLast<'a>(input: &'a str, search: &str) -> &'a str {
+// }
+// fn str_between<'a>(input: &'a str, search: &str) -> &'a str {
+// }
+
+
 #[pg_extern]
-fn uuid() -> String {
+fn str_uuid() -> String {
     Uuid::new_v4().to_string()
 }
 
 #[pg_extern]
-fn ascii(input: &str) -> String {
+fn str_ascii(input: &str) -> String {
     any_ascii(input)
 }
 
 #[pg_extern]
-fn is_ascii(input: &str) -> bool {
+fn str_is_ascii(input: &str) -> bool {
     input.is_ascii()
 }
 
 #[pg_extern]
-fn contains(input: &str, search: &str) -> bool {
+fn str_contains(input: &str, search: &str) -> bool {
     input.contains(search)
 }
 
 #[pg_extern]
-fn contains_all(input: &str, search: Vec<&str>) -> bool {
+fn str_contains_all(input: &str, search: Vec<&str>) -> bool {
     search.iter().all(|s| input.contains(s))
 }
 
 #[pg_extern]
-fn lower(input: &str) -> String {
+fn str_lower(input: &str) -> String {
     input.to_lowercase()
 }
 
 #[pg_extern]
-fn upper(input: &str) -> String {
+fn str_upper(input: &str) -> String {
     input.to_uppercase()
 }
 
 #[pg_extern]
-fn slug(input: &str, sep: char) -> String {
+fn str_slug(input: &str, sep: char) -> String {
     let mut slug = StrSlug::new();
     slug.separator = sep;
     slug.slug(input)
 }
 
 #[pg_extern]
-fn singular(input: &str) -> String {
+fn str_singular(input: &str) -> String {
     singularize::to_singular(input)
 }
 
 #[pg_extern]
-fn plural(input: &str) -> String {
+fn str_plural(input: &str) -> String {
     pluralize::to_plural(input)
 }
 
 #[pg_extern]
-fn title(input: &str) -> String {
+fn str_title(input: &str) -> String {
     titlecase::to_title_case(input)
 }
 
 #[pg_extern]
-fn camel(input: &str) -> String {
+fn str_camel(input: &str) -> String {
     camelcase::to_camel_case(input)
 }
 
 #[pg_extern]
-fn kebab(input: &str) -> String {
+fn str_kebab(input: &str) -> String {
     kebabcase::to_kebab_case(input)
 }
 
 #[pg_extern]
-fn snake(input: &str) -> String {
+fn str_snake(input: &str) -> String {
     snakecase::to_snake_case(input)
 }
 
 #[pg_extern]
-fn studly(input: &str) -> String {
+fn str_studly(input: &str) -> String {
     pascalcase::to_pascal_case(input)
 }
 
 #[pg_extern]
-fn scream(input: &str) -> String {
+fn str_scream(input: &str) -> String {
     screamingsnakecase::to_screaming_snake_case(input)
 }
 
 #[pg_extern]
-fn markdown(input: &str) -> String {
+fn str_markdown(input: &str) -> String {
     // Set up options and parser. Strikethroughs are not part of the CommonMark standard
     // and we therefore must enable it explicitly.
     let mut options = Options::empty();
@@ -123,27 +141,27 @@ fn markdown(input: &str) -> String {
 }
 
 #[pg_extern]
-fn substr(input: &str, start: i32, end: i32) -> &str {
+fn str_substr(input: &str, start: i32, end: i32) -> &str {
     &input[start as usize..end as usize]
 }
 #[pg_extern]
-fn replace(input: &'static str, old: &'static str, new: &'static str) -> String {
+fn str_replace(input: &'static str, old: &'static str, new: &'static str) -> String {
     input.replace(old, new)
 }
 
 #[pg_extern]
-fn append(mut input: String, extra: &str) -> String {
+fn str_append(mut input: String, extra: &str) -> String {
     input.push_str(extra);
     input
 }
 
 #[pg_extern]
-fn split(input: &'static str, pattern: &str) -> Vec<&'static str> {
+fn str_split(input: &'static str, pattern: &str) -> Vec<&'static str> {
     input.split_terminator(pattern).into_iter().collect()
 }
 
 #[pg_extern]
-fn split_set<'a>(input: &'a str, pattern: &'a str) -> SetOfIterator<'a, &'a str> {
+fn str_split_set<'a>(input: &'a str, pattern: &'a str) -> SetOfIterator<'a, &'a str> {
     SetOfIterator::new(input.split_terminator(pattern).into_iter())
 }
 
