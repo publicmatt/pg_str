@@ -3,4 +3,3 @@ default_version = '@CARGO_VERSION@'
 module_pathname = '$libdir/pg_str'
 relocatable = false
 superuser = false
-schema = str
