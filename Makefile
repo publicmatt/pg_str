@@ -1,10 +1,10 @@
-PACKAGE_VERSION=0.3.0
+PACKAGE_VERSION=0.3.1
 PACKAGE_NAME=pg_str
 PG_VERSION=15
 PREFIX=target/release/$(PACKAGE_NAME)-pg$(PG_VERSION)
 
 build:
-	cargo pgx package
+	cargo pgrx package
 
 install: $(PREFIX)
 	cp -f $(PREFIX)/usr/share/postgresql/$(PG_VERSION)/extension/$(PACKAGE_NAME)--$(PACKAGE_VERSION).sql /usr/share/postgresql/$(PG_VERSION)/extension/$(PACKAGE_NAME)--$(PACKAGE_VERSION).sql

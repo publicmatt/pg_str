@@ -1,28 +1,30 @@
-# Postgresql String Extension
+# pg_str: the postgresql extension for strings
 
-A better way of handling string manipulation and transformations in Postgresql.
+add some good default string manipulation functions to postgresql. build using the rust library pgrx: [https://github.com/pgcentralfoundation/pgrx](https://github.com/pgcentralfoundation/pgrx).
 
-Function api and behavior is inspired by those available in the Laravel web framework: https://laravel.com/docs/8.x/helpers#strings-method-list
 
-## Installation
+function api and behavior is inspired by the laravel web framework: [https://laravel.com/docs/10.x/strings](https://laravel.com/docs/10.x/strings)
+
+## installation
 ```
-git clone git@github.com:abumni/pg_str
+git clone https://gitea.publicmatt.com/public/pg_str.git
 cd pg_str
 cargo pgx package # run cargo install pgx first
 sudo make install # adjust Makefile if using different version of postgresql than 13.
 ```
-This puts the binaries and sql into the right folder location. Next you need to create the extension in postgresql:
+this puts the binaries and sql into the right folder location. next you need to create the extension in postgresql:
 
 ```
 psql
-> create extension pg_str; # installs functions in a schema named 'str'
-> select str.markdown('# Hello '
+> create extension pg_str; # installs functions in a 'public' schema. 
+> select str_markdown('# Hello '
 || str.snake('pg str')
 || '- ~~using programming language for str manipulations~~ 
 - **do it all in postgresql** ');
 ```
 
-## API
+## api thus far:
+
 - [x] after
 - [] afterLast
 - [x] ascii
@@ -60,10 +62,10 @@ psql
 - [x] singular 
 - [x] slug 
 - [x] snake 
-- [] start
+- [x] start
 - [] startsWith
 - [x] studly 
-- [] substr
+- [x] substr
 - [] substrCount
 - [] substrReplace
 - [x] title 
