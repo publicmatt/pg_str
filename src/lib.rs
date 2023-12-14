@@ -1,7 +1,7 @@
-use pgx::prelude::*;
+use pgrx::prelude::*;
 
 use rand::distributions::{Alphanumeric, DistString};
-use rand::thread_rng;
+
 use any_ascii::any_ascii;
 use inflector::cases::{
     camelcase, kebabcase, pascalcase, screamingsnakecase, snakecase, titlecase,
@@ -11,8 +11,7 @@ use pulldown_cmark::{html, Options, Parser};
 use str_slug::StrSlug;
 use uuid::Uuid;
 
-
-pgx::pg_module_magic!();
+pgrx::pg_module_magic!();
 
 #[pg_extern]
 fn str_random(length: i32) -> String {
@@ -29,7 +28,7 @@ fn str_after<'a>(input: &'a str, search: &str) -> &'a str {
     let matches: Vec<_> = input.match_indices(search).collect();
     match matches.first() {
         None => input,
-        Some(x) => &input[x.1.len()..]
+        Some(x) => &input[x.1.len()..],
     }
 }
 // #[pg_extern]
@@ -42,7 +41,6 @@ fn str_after<'a>(input: &'a str, search: &str) -> &'a str {
 // }
 // fn str_between<'a>(input: &'a str, search: &str) -> &'a str {
 // }
-
 
 #[pg_extern]
 fn str_uuid() -> String {
@@ -168,7 +166,6 @@ fn str_split_set<'a>(input: &'a str, pattern: &'a str) -> SetOfIterator<'a, &'a 
 #[cfg(any(test, feature = "pg_test"))]
 #[pg_schema]
 mod tests {
-    use pgx::prelude::*;
 
     // #[pg_test]
     // fn test_hello_pg_str() {
