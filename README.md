@@ -28,8 +28,8 @@ psql
 - [x] after
 - [] afterLast
 - [x] ascii
-- [] before
-- [] beforeLast
+- [x] before
+- [x] beforeLast
 - [] between
 - [x] camel 
 - [x] contains
