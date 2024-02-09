@@ -6,6 +6,7 @@ pub mod modules {
     pub mod contains;
     pub mod length;
     pub mod markdown;
+    pub mod pad;
     pub mod random;
     pub mod split;
     pub mod start;
@@ -22,6 +23,7 @@ pub use modules::case::*;
 pub use modules::contains::*;
 pub use modules::length::*;
 pub use modules::markdown::*;
+pub use modules::pad::*;
 pub use modules::random::*;
 pub use modules::split::*;
 pub use modules::start::*;

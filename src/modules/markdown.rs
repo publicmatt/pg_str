@@ -1,4 +1,4 @@
-use pgrx::prelude::*;
+use pgrx::pg_extern;
 
 use pulldown_cmark::{html, Options, Parser};
 
@@ -16,9 +16,9 @@ pub fn str_markdown(input: &str) -> String {
     html_output
 }
 
-#[cfg(any(test, feature = "pg_test"))]
-mod tests {
-    #[allow(unused_imports)]
-    use super::*;
-    use pgrx::prelude::*;
-}
+// #[cfg(any(test, feature = "pg_test"))]
+// mod tests {
+//     #[allow(unused_imports)]
+//     use super::*;
+//     use pgrx::pg_extern;
+// }

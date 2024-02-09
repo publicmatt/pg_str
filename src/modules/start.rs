@@ -1,4 +1,4 @@
-use pgrx::prelude::*;
+use pgrx::pg_extern;
 use regex::Regex;
 
 #[pg_extern]
@@ -14,7 +14,7 @@ pub fn str_start(value: &str, prefix: &str) -> String {
 mod tests {
     #[allow(unused_imports)]
     use super::*;
-    use pgrx::prelude::*;
+    use pgrx::{pg_test, Spi};
 
     #[pg_test]
     fn test_no_slash_prefix() {

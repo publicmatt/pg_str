@@ -1,4 +1,4 @@
-use pgrx::prelude::*;
+use pgrx::pg_extern;
 
 #[pg_extern]
 pub fn str_after<'a>(input: &'a str, search: &str) -> &'a str {
@@ -12,9 +12,9 @@ pub fn str_after<'a>(input: &'a str, search: &str) -> &'a str {
 // fn str_after_last<'a>(input: &'a str, search: &str) -> &'a str {
 // }
 
-#[cfg(any(test, feature = "pg_test"))]
-mod tests {
-    #[allow(unused_imports)]
-    use super::*;
-    use pgrx::prelude::*;
-}
+// #[cfg(any(test, feature = "pg_test"))]
+// mod tests {
+//     #[allow(unused_imports)]
+//     use super::*;
+//     use pgrx::prelude::*;
+// }

@@ -1,4 +1,5 @@
-use pgrx::prelude::*;
+use pgrx::iter::SetOfIterator;
+use pgrx::pg_extern;
 
 #[pg_extern]
 pub fn str_split<'a>(input: &'a str, pattern: &str) -> Vec<&'a str> {
@@ -10,9 +11,9 @@ pub fn str_split_set<'a>(input: &'a str, pattern: &'a str) -> SetOfIterator<'a, 
     SetOfIterator::new(input.split_terminator(pattern).into_iter())
 }
 
-#[cfg(any(test, feature = "pg_test"))]
-mod tests {
-    #[allow(unused_imports)]
-    use super::*;
-    use pgrx::prelude::*;
-}
+// #[cfg(any(test, feature = "pg_test"))]
+// mod tests {
+//     #[allow(unused_imports)]
+//     use super::*;
+//     use pgrx::prelude::*;
+// }

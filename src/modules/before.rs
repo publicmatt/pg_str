@@ -1,4 +1,4 @@
-use pgrx::prelude::*;
+use pgrx::pg_extern;
 
 #[pg_extern]
 pub fn str_before<'a>(input: &'a str, search: &str) -> &'a str {

@@ -1,5 +1,5 @@
 use any_ascii::any_ascii;
-use pgrx::prelude::*;
+use pgrx::pg_extern;
 
 #[pg_extern]
 pub fn str_ascii(input: &str) -> String {
@@ -11,9 +11,9 @@ pub fn str_is_ascii(input: &str) -> bool {
     input.is_ascii()
 }
 
-#[cfg(any(test, feature = "pg_test"))]
-mod tests {
-    #[allow(unused_imports)]
-    use super::*;
-    use pgrx::prelude::*;
-}
+// #[cfg(any(test, feature = "pg_test"))]
+// mod tests {
+//     #[allow(unused_imports)]
+//     use super::*;
+//     use pgrx::prelude::*;
+// }

@@ -1,4 +1,4 @@
-use pgrx::prelude::*;
+use pgrx::pg_extern;
 
 use inflector::cases::{
     camelcase, kebabcase, pascalcase, screamingsnakecase, snakecase, titlecase,
@@ -63,9 +63,9 @@ pub fn str_scream(input: &str) -> String {
     screamingsnakecase::to_screaming_snake_case(input)
 }
 
-#[cfg(any(test, feature = "pg_test"))]
-mod tests {
-    #[allow(unused_imports)]
-    use super::*;
-    use pgrx::prelude::*;
-}
+// #[cfg(any(test, feature = "pg_test"))]
+// mod tests {
+//     #[allow(unused_imports)]
+//     use super::*;
+//     use pgrx::prelude::*;
+// }
